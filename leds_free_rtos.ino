@@ -45,6 +45,7 @@ void setup() {
   pinMode(CHLedVd,INPUT_PULLUP);
   pinMode(CHLedAz,INPUT_PULLUP);
 
+  // Precisa ter maior prioridade, para que as chaves serão prioritariamente observadas
   // Now set up two tasks to run independently.
   xTaskCreate(
     TaskChaves
