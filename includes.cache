@@ -1,0 +1,72 @@
+[
+  {
+    "Sourcefile": "",
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino"
+  },
+  {
+    "Sourcefile": "",
+    "Include": "",
+    "Includepath": "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\standard"
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\AppData\\Local\\Temp\\arduino_build_511906\\sketch\\leds_free_rtos.ino.cpp",
+    "Include": "Arduino_FreeRTOS.h",
+    "Includepath": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src"
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\AppData\\Local\\Temp\\arduino_build_511906\\sketch\\leds_free_rtos.ino.cpp",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\croutine.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\event_groups.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\heap_3.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\list.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\port.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\queue.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\stream_buffer.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\tasks.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\timers.c",
+    "Include": "",
+    "Includepath": ""
+  },
+  {
+    "Sourcefile": "C:\\Users\\Waldney\\Documents\\Arduino\\libraries\\FreeRTOS\\src\\variantHooks.cpp",
+    "Include": "",
+    "Includepath": ""
+  }
+]
