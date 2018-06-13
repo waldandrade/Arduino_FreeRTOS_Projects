@@ -98,7 +98,6 @@ void PiscaLED(void){
   digitalWrite(Pinosled[ledatual], HIGH);
   vTaskDelay(200 / portTICK_PERIOD_MS); //Cada unidade passada representa portTICK_PERIOD_MS (contante igual a 15) milisegundos
   digitalWrite(Pinosled[ledatual],LOW);
-  vTaskDelay(200 / portTICK_PERIOD_MS);
   ledatual += 1;
   if(ledatual == 4){
     ledatual -= 4;
