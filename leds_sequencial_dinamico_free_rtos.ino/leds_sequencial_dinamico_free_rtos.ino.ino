@@ -20,11 +20,13 @@ int ledatual = 0;
 void TaskChaves(void *p);
 void TaskPiscaLED(void *p);
 void TaskPiscaDinamico(void *p);
+void TaskChaveDinamica(void *p);
 
 //definindo o escopo das funcoes...
 void Chaves(void);
 void PiscaLED(void);
 void PiscaDinamico(void);
+void ChaveDinamica(void);
 
 //criando flag para controlar a passagem de estado do LED azul, mediante pressionamento da chave tactil correspondente
 //boolean chaveAzPress=false;
@@ -51,16 +53,27 @@ void setup() {
     ,  (const portCHAR *)"Chaves"   // A name just for humans
     ,  128  // O tamanho do espaço que vai ser criado que a tarefa manipule em palavras, no caso 128 * 4 bytes
     ,  NULL // passagem de parâmetro do tipo void
-    ,  2  // Priority
+    ,  0  // Priority
     ,  NULL );
-    
+/*
+  xTaskCreate(
+    TaskChaveDinamica
+    ,  (const portCHAR *)"ChaveDinamica"   // A name just for humans
+    ,  128  // O tamanho do espaço que vai ser criado que a tarefa manipule em palavras, no caso 128 * 4 bytes
+    ,  NULL // passagem de parâmetro do tipo void
+    ,  1  // Priority
+    ,  NULL );
+    */
+
+   /*
   xTaskCreate(
     TaskPiscaDinamico
     ,  (const portCHAR *) "PiscarLedDinamico"
     ,  128  // Stack size
     ,  NULL
-    ,  1  // Priority
+    ,  2  // Priority
     ,  NULL );
+    */
     
   xTaskCreate(
     TaskPiscaLED
@@ -84,6 +97,13 @@ void TaskChaves(void *p){
   }
 }
 
+void TaskChaveDinamica(void *p){
+  while(1){
+    ChaveDinamica();
+    vTaskDelay(1 / portTICK_PERIOD_MS);
+  }
+}
+
 void TaskPiscaDinamico(void *p){
   while(1){
     PiscaDinamico();
@@ -102,18 +122,20 @@ void TaskPiscaLED(void *p){
 void Chaves(void){
   for (int x=0; x<4; x++) // Loop que define todos os pinos como saída
   {
-    if(!digitalRead(ChavesArray[x])){ 
-      if(x == ledDinamico){
-        estadoLedDinamico++;
-        if(estadoLedDinamico > 2){
-          estadoLedDinamico = 0;
-        }        
-      }  
+    if(!digitalRead(ChavesArray[x])){
       ChavePress[x] = true;
       digitalWrite(Pinosled[x],HIGH); //caso o usuario aperte o botao, o LED é aceso        
      }else{
-       if(ChavePress[x] && (x != ledDinamico || estadoLedDinamico == 0)){  //verifica se a chave foi pressionada, atraves do estado da flag...
-         digitalWrite(Pinosled[x],LOW);
+       if(ChavePress[x]){  //verifica se a chave foi pressionada, atraves do estado da flag...
+         if(x != ledDinamico || estadoLedDinamico != 1){
+          digitalWrite(Pinosled[x],LOW);
+         }
+         if(x == ledDinamico){
+          estadoLedDinamico++;
+          if(estadoLedDinamico > 2){
+            estadoLedDinamico = 0;
+          }
+         }
          ChavePress[x] = false;
        }
      }
@@ -132,7 +154,7 @@ void PiscaDinamico(void){
 }
 
 void PiscaLED(void){
-  if(ledatual != ledDinamico || estadoLedDinamico == 0){
+  if(ledatual != ledDinamico || (ledatual == ledDinamico && estadoLedDinamico == 0)){
     digitalWrite(Pinosled[ledatual], HIGH);
     vTaskDelay(200 / portTICK_PERIOD_MS); //Cada unidade passada representa portTICK_PERIOD_MS (contante igual a 15) milisegundos
     digitalWrite(Pinosled[ledatual],LOW);
