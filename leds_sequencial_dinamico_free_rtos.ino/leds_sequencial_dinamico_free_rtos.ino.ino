@@ -20,18 +20,11 @@ int ledatual = 0;
 void TaskChaves(void *p);
 void TaskPiscaLED(void *p);
 void TaskPiscaDinamico(void *p);
-void TaskChaveDinamica(void *p);
 
 //definindo o escopo das funcoes...
 void Chaves(void);
 void PiscaLED(void);
 void PiscaDinamico(void);
-void ChaveDinamica(void);
-
-//criando flag para controlar a passagem de estado do LED azul, mediante pressionamento da chave tactil correspondente
-//boolean chaveAzPress=false;
-int ledBlock = 0;
-int clickCount = 0;
 
 void setup() {  
   pinMode(13,OUTPUT);
@@ -84,13 +77,6 @@ void TaskChaves(void *p){
   while(1){
     Chaves();
     //PiscaDinamico();
-    vTaskDelay(1 / portTICK_PERIOD_MS);
-  }
-}
-
-void TaskChaveDinamica(void *p){
-  while(1){
-    ChaveDinamica();
     vTaskDelay(1 / portTICK_PERIOD_MS);
   }
 }
