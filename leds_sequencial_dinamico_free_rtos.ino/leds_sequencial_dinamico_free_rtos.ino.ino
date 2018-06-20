@@ -55,25 +55,6 @@ void setup() {
     ,  NULL // passagem de parâmetro do tipo void
     ,  0  // Priority
     ,  NULL );
-/*
-  xTaskCreate(
-    TaskChaveDinamica
-    ,  (const portCHAR *)"ChaveDinamica"   // A name just for humans
-    ,  128  // O tamanho do espaço que vai ser criado que a tarefa manipule em palavras, no caso 128 * 4 bytes
-    ,  NULL // passagem de parâmetro do tipo void
-    ,  1  // Priority
-    ,  NULL );
-    */
-
-   /*
-  xTaskCreate(
-    TaskPiscaDinamico
-    ,  (const portCHAR *) "PiscarLedDinamico"
-    ,  128  // Stack size
-    ,  NULL
-    ,  2  // Priority
-    ,  NULL );
-    */
     
   xTaskCreate(
     TaskPiscaLED
@@ -82,6 +63,15 @@ void setup() {
     ,  NULL
     ,  3  // Priority
     ,  NULL );
+/*
+  xTaskCreate(
+    TaskPiscaDinamico
+    ,  (const portCHAR *) "PiscarLedDinamico"
+    ,  128  // Stack size
+    ,  NULL
+    ,  4  // Priority
+    ,  NULL );
+*/
 
 }
 
@@ -93,6 +83,7 @@ void loop() {
 void TaskChaves(void *p){
   while(1){
     Chaves();
+    PiscaDinamico();
     vTaskDelay(1 / portTICK_PERIOD_MS);
   }
 }
@@ -126,15 +117,15 @@ void Chaves(void){
       ChavePress[x] = true;
       digitalWrite(Pinosled[x],HIGH); //caso o usuario aperte o botao, o LED é aceso        
      }else{
-       if(ChavePress[x]){  //verifica se a chave foi pressionada, atraves do estado da flag...
-         if(x != ledDinamico || estadoLedDinamico != 1){
-          digitalWrite(Pinosled[x],LOW);
-         }
+       if(ChavePress[x]){  //verifica se a chave foi pressionada, atraves do estado da flag...    
          if(x == ledDinamico){
           estadoLedDinamico++;
           if(estadoLedDinamico > 2){
             estadoLedDinamico = 0;
           }
+         }
+         if(x != ledDinamico || (x == ledDinamico && estadoLedDinamico != 1)){
+          digitalWrite(Pinosled[x],LOW);
          }
          ChavePress[x] = false;
        }
@@ -143,9 +134,7 @@ void Chaves(void){
 }
 
 void PiscaDinamico(void){
-  if(estadoLedDinamico == 1){
-    digitalWrite(Pinosled[ledDinamico], HIGH);      
-  }else if(estadoLedDinamico == 2){      
+  if(estadoLedDinamico == 2){      
     digitalWrite(Pinosled[ledDinamico], HIGH);
     vTaskDelay(100 / portTICK_PERIOD_MS); //Cada unidade passada representa portTICK_PERIOD_MS (contante igual a 15) milisegundos
     digitalWrite(Pinosled[ledDinamico],LOW);
