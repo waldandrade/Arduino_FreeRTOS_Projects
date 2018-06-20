@@ -55,6 +55,14 @@ void setup() {
     ,  NULL // passagem de parâmetro do tipo void
     ,  0  // Priority
     ,  NULL );
+
+   xTaskCreate(
+    TaskPiscaDinamico
+    ,  (const portCHAR *) "PiscarLedDinamico"
+    ,  128  // Stack size
+    ,  NULL
+    ,  0  // Priority
+    ,  NULL );
     
   xTaskCreate(
     TaskPiscaLED
@@ -63,15 +71,7 @@ void setup() {
     ,  NULL
     ,  3  // Priority
     ,  NULL );
-/*
-  xTaskCreate(
-    TaskPiscaDinamico
-    ,  (const portCHAR *) "PiscarLedDinamico"
-    ,  128  // Stack size
-    ,  NULL
-    ,  4  // Priority
-    ,  NULL );
-*/
+
 
 }
 
@@ -83,7 +83,7 @@ void loop() {
 void TaskChaves(void *p){
   while(1){
     Chaves();
-    PiscaDinamico();
+    //PiscaDinamico();
     vTaskDelay(1 / portTICK_PERIOD_MS);
   }
 }
@@ -139,6 +139,8 @@ void PiscaDinamico(void){
     vTaskDelay(100 / portTICK_PERIOD_MS); //Cada unidade passada representa portTICK_PERIOD_MS (contante igual a 15) milisegundos
     digitalWrite(Pinosled[ledDinamico],LOW);
     vTaskDelay(100 / portTICK_PERIOD_MS);
+  }else if(estadoLedDinamico == 1){
+    digitalWrite(Pinosled[ledDinamico], HIGH);    
   }
 }
 
