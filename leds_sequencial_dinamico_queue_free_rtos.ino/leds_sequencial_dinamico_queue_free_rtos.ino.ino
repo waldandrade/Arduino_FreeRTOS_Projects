@@ -146,12 +146,19 @@ void Chaves(void){
           
           static unsigned long delayBounce = 0;
           static unsigned long delayPisca;
-          
-          if((xTaskGetTickCount() - delayBounce) < 10){         
+
+          /**
+           * Verificar a lógica desta instrução e por que nunca entra nela
+           */
+          if((xTaskGetTickCount() - delayBounce) > 10){         
             estadoLedDinamico++;
             if(estadoLedDinamico > 2){
               estadoLedDinamico = 0;
             }
+
+            delayBounce = xTaskGetTickCount();
+
+            xQueueOverwrite(queue, &estadoLedDinamico);
           }
         }
         if(x != ledDinamico || (x == ledDinamico && estadoLedDinamico != 1)){
@@ -167,12 +174,15 @@ void Chaves(void){
  * Funcao que gerencia o comportamento do LED dinamico em funcao da variavel que guarda o seu estado
  */
 void PiscaDinamico(void){
-  if(estadoLedDinamico == 2){      
+  unsigned int estadoDinamico;
+  xQueuePeek(queue, &estadoDinamico, (TickType_t) 0);
+  
+  if(estadoDinamico == 2){      
     digitalWrite(Pinosled[ledDinamico], HIGH);
     vTaskDelay(100 / portTICK_PERIOD_MS); //Cada unidade passada representa portTICK_PERIOD_MS (contante igual a 15) milisegundos
     digitalWrite(Pinosled[ledDinamico],LOW);
     vTaskDelay(100 / portTICK_PERIOD_MS);
-  }else if(estadoLedDinamico == 1){
+  }else if(estadoDinamico == 1){
     digitalWrite(Pinosled[ledDinamico], HIGH);    
   }
 }
@@ -181,7 +191,10 @@ void PiscaDinamico(void){
  * Funcao que gerencia o comportamento natural dos LEDS, piscando um a um em sequencia de 200ms
  */
 void PiscaLED(void){
-  if((ledatual != ledDinamico || (ledatual == ledDinamico && estadoLedDinamico == 0)) && ChavePress[ledatual] == false){
+  unsigned int estadoDinamico;
+  xQueuePeek(queue, &estadoDinamico, (TickType_t) 0);
+  
+  if((ledatual != ledDinamico || (ledatual == ledDinamico && estadoDinamico == 0)) && ChavePress[ledatual] == false){
     digitalWrite(Pinosled[ledatual], HIGH);
     /**
      * Cada LED deve ficar 200 milissegundos aceso
